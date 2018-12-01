@@ -17,6 +17,7 @@ import repository.StockDetailsRepository;
 
 @SpringBootApplication
 @ComponentScan("repository")
+@ComponentScan("controller")
 public class KMLDemo implements CommandLineRunner{
 	
 	@Autowired
@@ -24,7 +25,6 @@ public class KMLDemo implements CommandLineRunner{
 
 	public static void main(String[] args) {
 		SpringApplication.run(KMLDemo.class, args);
-		System.out.println("in prgrm");
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class KMLDemo implements CommandLineRunner{
 			sd.setClose(Double.valueOf(line.split(",")[4]));
 			sd.setAdjClose(Double.valueOf(line.split(",")[5]));
 			sd.setVolume(Integer.valueOf(line.split(",")[6]));
-			System.out.println(repo.insert(sd));
+			repo.insert(sd);
 		}
 		
 		
