@@ -12,6 +12,7 @@ import entities.Stockdetails;
 
 @Repository
 public class StockDetailsRepository {
+	static String groupByClause;
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -24,23 +25,29 @@ public class StockDetailsRepository {
 	}
 
 
-	public String getAverageClose(String year,String month,String day) {
+	public List<Map<String, Object>> getAverageClose(String year,String month,String day) {
+		 groupByClause = " year(STOCKDATE ) ";
+		String sql =" nvl(avg(close),0) average  from STOCKDETAILS  where    ";
 		
-		String sql =" select  nvl(avg(close),0) average  from STOCKDETAILS  where    ";
 		if(year!=null)
 		{
 		sql = 	sql.concat("year(STOCKDATE )="+year+"");
+		groupByClause =groupByClause.concat(",month(STOCKDATE ) ");
 			if(month!=null)
 			{
-				sql = 	sql.concat("and month(STOCKDATE ) = "+month+"");
+				sql = 	sql.concat("and month(STOCKDATE ) = "+month+" ");
+				
+				groupByClause =groupByClause.concat(",day(STOCKDATE )");
+				
 					if(day!=null)
 					{
 						sql = 	sql.concat(" and day(STOCKDATE ) = "+day+"");
 					}
 				}
+			sql ="select "+groupByClause+" ,"+sql.concat("group by "+groupByClause +"order by "+groupByClause );
 		}
-		return !jdbcTemplate.queryForList(sql).get(0).get("average").toString().equalsIgnoreCase("0")?jdbcTemplate.queryForList(sql).get(0).get("average").toString():"NO DATA FOR GIVEN PERIOD";
-		 
+		//return !jdbcTemplate.queryForList(sql).get(0).get("average").toString().equalsIgnoreCase("0")?jdbcTemplate.queryForList(sql).get(0).get("average").toString():"NO DATA FOR GIVEN PERIOD";
+		return jdbcTemplate.queryForList(sql);
 		
 	}
 
