@@ -74,10 +74,46 @@ public class klmControllerTest {
 			e.printStackTrace();
 		}
 
-	//	System.out.println(result.getResponse());
 		String expected = "{YEAR(STOCKDATE):1972,MONTH(STOCKDATE):1,AVERAGE:2.1248345}";
 
-		// {"id":"Course1","name":"Spring","description":"10 Steps, 25 Examples and 10K Students","steps":["Learn Maven","Import Project","First Example","Second Example"]}
+		Assert.assertNotNull(result);
+		
+	}
+	
+	@Test
+	public void getCloseOverPeriod() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+		Stockdetails sd = new Stockdetails();
+		sd.setId(1);
+		try {
+			sd.setStockDate(dateFormat.parse("01/06/72"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sd.setOpen(Double.valueOf("2.149165"));
+		sd.setHigh(Double.valueOf("2.173495"));
+		sd.setLow(Double.valueOf("2.149165"));
+		sd.setClose(Double.valueOf("2.15322"));
+		sd.setAdjClose(Double.valueOf("0.003195"));
+		sd.setVolume(Integer.valueOf("1089200"));
+		List avgClose = repoOrg.getCloseOverPeriod( "1972", "6", "7");
+		Mockito.when(
+				repo.getCloseOverPeriod(Mockito.anyString(),Mockito.anyString(),
+						Mockito.anyString())).thenReturn(avgClose);
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+				"getCloseOverPeriod?year=1972");
+		MvcResult result = null;
+		try {
+			 result = mockMVC.perform(requestBuilder).andReturn();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String expected = "{STOCKDATE:1972-01-06,CLOSE:2.15322}";
+
 		Assert.assertNotNull(result);
 		
 	}
