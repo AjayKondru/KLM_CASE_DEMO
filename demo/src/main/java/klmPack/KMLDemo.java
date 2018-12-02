@@ -3,6 +3,7 @@ package klmPack;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
@@ -30,7 +31,8 @@ public class KMLDemo implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Ajay\\Downloads\\f.csv"));
+	//	BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Ajay\\Downloads\\f.csv"));
+		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Ajay\\Downloads\\f.csv"))){
 		String line;
 		Stockdetails sd = new Stockdetails() ;
 		int i=1;
@@ -53,5 +55,10 @@ public class KMLDemo implements CommandLineRunner{
 		
 		
 	}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 }
+}
+
 

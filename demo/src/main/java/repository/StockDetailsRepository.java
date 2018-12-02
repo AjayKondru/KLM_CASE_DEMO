@@ -12,7 +12,7 @@ import entities.Stockdetails;
 
 @Repository
 public class StockDetailsRepository {
-	static String groupByClause;
+//	static String groupByClause;
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -26,48 +26,48 @@ public class StockDetailsRepository {
 
 
 	public List<Map<String, Object>> getAverageClose(String year,String month,String day) {
-		 groupByClause = " year(STOCKDATE ) ";
-		String sql =" nvl(avg(close),0) average  from STOCKDETAILS  where    ";
+		StringBuffer  groupByClause = new StringBuffer(" year(STOCKDATE ) ");
+		StringBuffer sql = new StringBuffer(" nvl(avg(close),0) average  from STOCKDETAILS  where    ");
 		
 		if(year!=null)
 		{
-		sql = 	sql.concat("year(STOCKDATE )="+year+"");
-		groupByClause =groupByClause.concat(",month(STOCKDATE ) ");
+		sql = 	sql.append("year(STOCKDATE )="+year+"");
+		groupByClause =groupByClause.append(",month(STOCKDATE ) ");
 			if(month!=null)
 			{
-				sql = 	sql.concat("and month(STOCKDATE ) = "+month+" ");
+				sql = 	sql.append("and month(STOCKDATE ) = "+month+" ");
 				
-				groupByClause =groupByClause.concat(",day(STOCKDATE )");
+				groupByClause =groupByClause.append(",day(STOCKDATE )");
 				
 					if(day!=null)
 					{
-						sql = 	sql.concat(" and day(STOCKDATE ) = "+day+"");
+						sql = 	sql.append(" and day(STOCKDATE ) = "+day+"");
 					}
 				}
-			sql ="select "+groupByClause+" ,"+sql.concat("group by "+groupByClause +"order by "+groupByClause );
+			sql =(new StringBuffer("select ")).append(groupByClause).append(" ,").append(sql.append("group by ").append(groupByClause).append ("order by ").append(groupByClause ));
 		}
 		//return !jdbcTemplate.queryForList(sql).get(0).get("average").toString().equalsIgnoreCase("0")?jdbcTemplate.queryForList(sql).get(0).get("average").toString():"NO DATA FOR GIVEN PERIOD";
-		return jdbcTemplate.queryForList(sql);
+		return jdbcTemplate.queryForList(sql.toString());
 		
 	}
 
 
 	public List<Map<String,Object>> getCloseOverPeriod(String year, String month, String day) {
 		// TODO Auto-generated method stub
-		String sql =" select  STOCKDATE,close   from STOCKDETAILS  where    ";
+		StringBuffer sql = new StringBuffer(" select  STOCKDATE,close   from STOCKDETAILS  where    ");
 		if(year!=null)
 		{
-		sql = 	sql.concat("year(STOCKDATE )="+year+"");
+		sql = 	sql.append("year(STOCKDATE )="+year+"");
 			if(month!=null)
 			{
-				sql = 	sql.concat("and month(STOCKDATE ) = "+month+"");
+				sql = 	sql.append("and month(STOCKDATE ) = "+month+"");
 					if(day!=null)
 					{
-						sql = 	sql.concat(" and day(STOCKDATE ) = "+day+"");
+						sql = 	sql.append(" and day(STOCKDATE ) = "+day+"");
 					}
 				}
 		}
-		List<Map<String,Object>> l = jdbcTemplate.queryForList(sql);
+		List<Map<String,Object>> l = jdbcTemplate.queryForList(sql.toString());
 		
 		return l;
 		
