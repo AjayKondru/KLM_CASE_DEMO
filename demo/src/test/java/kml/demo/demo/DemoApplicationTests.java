@@ -1,4 +1,4 @@
-package kml.demo.demo;
+/*package kml.demo.demo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,3 +14,4 @@ public class DemoApplicationTests {
 	}
 
 }
+*/
