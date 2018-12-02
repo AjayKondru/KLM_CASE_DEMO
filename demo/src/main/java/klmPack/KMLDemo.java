@@ -36,7 +36,7 @@ public class KMLDemo implements CommandLineRunner{
 		String line;
 		Stockdetails sd = new Stockdetails() ;
 		int i=1;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
 		while(br.readLine()!=null)
 		{
 			line = br.readLine();
