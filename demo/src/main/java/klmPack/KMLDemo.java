@@ -32,7 +32,7 @@ public class KMLDemo implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 	//	BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Ajay\\Downloads\\f.csv"));
-		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Ajay\\Downloads\\f.csv"))){
+		try (BufferedReader br = new BufferedReader(new FileReader("f.csv"))){
 		String line;
 		Stockdetails sd = new Stockdetails() ;
 		int i=1;
